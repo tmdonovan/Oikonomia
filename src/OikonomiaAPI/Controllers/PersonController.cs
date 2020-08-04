@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OikonomiaAPI.Models;
 
 namespace OikonomiaAPI.Controllers
 {
@@ -10,10 +11,14 @@ namespace OikonomiaAPI.Controllers
     [ApiController]
     public class PersonController: ControllerBase
     {
+        private readonly OikonomiaContext _context;
+
+        public PersonController(OikonomiaContext context) => _context = context;
+
         [HttpGet]
-        public ActionResult<IEnumerable<string>>Get()
+        public ActionResult<IEnumerable<Person>>GetPersons()
         {
-            return new string[] { "this", "is", "hard", "coded" };
+            return _context.Person;
         }
     }
 }

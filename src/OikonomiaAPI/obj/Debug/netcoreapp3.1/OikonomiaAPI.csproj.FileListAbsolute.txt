@@ -15,7 +15,6 @@ C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\obj\Debug\netcoreapp3.1\Oik
 C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\obj\Debug\netcoreapp3.1\OikonomiaAPI.RazorTargetAssemblyInfo.cache
 C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\obj\Debug\netcoreapp3.1\OikonomiaAPI.dll
 C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\obj\Debug\netcoreapp3.1\OikonomiaAPI.pdb
-C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\obj\Debug\netcoreapp3.1\OikonomiaAPI.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.HashCode.dll
 C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.dll
@@ -38,3 +37,10 @@ C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\bin\Debug\netcoreapp3.1\Npg
 C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
 C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
 C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\obj\Debug\netcoreapp3.1\OikonomiaAPI.csproj.CopyComplete
+C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\bin\Debug\netcoreapp3.1\AutoMapper.dll
+C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\Tim\source\repos\Oikonomia\src\OikonomiaAPI\obj\Debug\netcoreapp3.1\OikonomiaAPI.MvcApplicationPartsAssemblyInfo.cache

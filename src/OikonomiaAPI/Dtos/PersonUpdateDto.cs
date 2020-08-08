@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace OikonomiaAPI.Models
+namespace OikonomiaAPI.Dtos
 {
-    public partial class Person
+    public class PersonUpdateDto
     {
-        public int Personid { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
         public string Firstname { get; set; }
@@ -14,7 +15,5 @@ namespace OikonomiaAPI.Models
         public DateTime BirthDt { get; set; }
         public string Sexcd { get; set; }
         public string Ethnicitycd { get; set; }
-        public DateTime CreateDt { get; }
-        public DateTime UpdateDt { get; }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace OikonomiaAPI.Models
+namespace OikonomiaAPI.Dtos
 {
-    public partial class Affiliation
+    public class AffiliationReadDto
     {
         public int Affiliationid { get; set; }
         public string Name { get; set; }

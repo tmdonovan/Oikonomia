@@ -10,6 +10,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using OikonomiaAPI.Models;
+using AutoMapper;
+using Newtonsoft.Json.Serialization;
+using OikonomiaAPI.Data;
 
 namespace OikonomiaAPI
 {
@@ -24,6 +27,21 @@ namespace OikonomiaAPI
         {
             services.AddDbContext<OikonomiaContext>(opt => opt.UseNpgsql
                 (Configuration.GetConnectionString("PostgreSqlConnection")));
+
+            services.AddScoped<IPersonRepo, SqlPersonRepo>();
+
+
+            services.AddScoped<IOrganizationRepo, SqlOrganizationRepo>();
+
+            services.AddScoped<IAffiliationRepo, SqlAffiliationRepo>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddControllers().AddNewtonsoftJson(s =>
+            {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
+
             services.AddControllers();
         }
 
@@ -36,6 +54,8 @@ namespace OikonomiaAPI
             }
 
             app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,0 +1,21 @@
+﻿@model OikonomiaAPI.Dtos.PersonReadDto
+@{
+    ViewData["Title"] = "GetPersonByID";
+}
+<div asp-validation-summary="ModelOnly" class="test-danger"></div>
+<h4>@ViewBag.Message</h4>
+<div>
+    <h1>Person Details</h1>
+    <br />
+    <div>
+        <p>
+            <strong>Country Name: </strong> @Model.Username
+        </p>
+        <div class="form-group text-center">
+            <a class="btn btn-sm btn-primary" asp-controller="Persons" asp-action="UpdatePerson" asp-route-personId="@Model.Personid"> Update Person</a>
+            <a class="btn btn-sm btn-danger" asp-controller="Persons" asp-action="DeletePerson" asp-route-personId="@Model.Personid"> Delete Person</a>
+        </div>
+    </div>
+</div>
+
+

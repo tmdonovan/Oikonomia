@@ -1,0 +1,19 @@
+﻿@model IEnumerable<OikonomiaAPI.Dtos.PersonReadDto>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>@ViewBag.Message</h2>
+<div asp-validation-summary="ModelOnly" class="test-danger"></div>
+<div>
+<h2>List Of Persons</h2>
+    <br />
+    @foreach(var item in Model)
+    {
+<p>
+    <strong>@item.Username</strong>
+    <a asp-controller="Persons" asp-action="GetPersonByID" asp-route-personId="@item.Personid"> | Details</a>
+    <a asp-controller="Persons" asp-action="DeletePerson" asp-route-personId="@item.Personid"> | Delete Person</a>
+</p>
+    }
+</div>

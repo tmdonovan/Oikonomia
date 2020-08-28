@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using OikonomiaAPI.Models;
 
-namespace OikonomiaAPI.Models
+namespace OikonomiaAPI.Data
 {
     public partial class OikonomiaContext : DbContext
     {
@@ -17,11 +18,21 @@ namespace OikonomiaAPI.Models
 
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<Affiliation> Affiliation { get; set; }
+        public virtual DbSet<Codevalues> Codevalues { get; set; }
         public virtual DbSet<Good> Good { get; set; }
-        public virtual DbSet<Group> Group { get; set; }
+        public virtual DbSet<Groups> Groups { get; set; }
+        public virtual DbSet<HasGood> HasGood { get; set; }
+        public virtual DbSet<HasService> HasService { get; set; }
+        public virtual DbSet<InAffiliation> InAffiliation { get; set; }
+        public virtual DbSet<InGroup> InGroup { get; set; }
+        public virtual DbSet<InOrganization> InOrganization { get; set; }
+        public virtual DbSet<InProjecttemplate> InProjecttemplate { get; set; }
+        public virtual DbSet<IsConnected> IsConnected { get; set; }
+        public virtual DbSet<IsRelated> IsRelated { get; set; }
         public virtual DbSet<Organization> Organization { get; set; }
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<Phonenumber> Phonenumber { get; set; }
+        public virtual DbSet<Projecttemplate> Projecttemplate { get; set; }
         public virtual DbSet<Service> Service { get; set; }
         public virtual DbSet<User> User { get; set; }
 
@@ -130,6 +141,43 @@ namespace OikonomiaAPI.Models
                     .HasDefaultValueSql("now()");
             });
 
+            modelBuilder.Entity<Codevalues>(entity =>
+            {
+                entity.ToTable("codevalues", "sys");
+
+                entity.Property(e => e.Codevaluesid).HasColumnName("codevaluesid");
+
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasColumnName("code")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Codegroup)
+                    .IsRequired()
+                    .HasColumnName("codegroup")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasColumnName("description")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Statuscd)
+                    .IsRequired()
+                    .HasColumnName("statuscd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+            });
+
             modelBuilder.Entity<Good>(entity =>
             {
                 entity.ToTable("good", "sys");
@@ -144,6 +192,10 @@ namespace OikonomiaAPI.Models
                 entity.Property(e => e.Description)
                     .HasColumnName("description")
                     .HasMaxLength(355);
+
+                entity.Property(e => e.Goodsubtypecd)
+                    .HasColumnName("goodsubtypecd")
+                    .HasMaxLength(10);
 
                 entity.Property(e => e.Goodtypecd)
                     .IsRequired()
@@ -166,11 +218,16 @@ namespace OikonomiaAPI.Models
                     .HasDefaultValueSql("now()");
             });
 
-            modelBuilder.Entity<Group>(entity =>
+            modelBuilder.Entity<Groups>(entity =>
             {
-                entity.ToTable("group", "sys");
+                entity.HasKey(e => e.Groupid)
+                    .HasName("group_pkey");
 
-                entity.Property(e => e.Groupid).HasColumnName("groupid");
+                entity.ToTable("groups", "sys");
+
+                entity.Property(e => e.Groupid)
+                    .HasColumnName("groupid")
+                    .HasDefaultValueSql("nextval('sys.group_groupid_seq'::regclass)");
 
                 entity.Property(e => e.CreateDt)
                     .HasColumnName("create_dt")
@@ -200,6 +257,305 @@ namespace OikonomiaAPI.Models
                     .HasColumnName("update_dt")
                     .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("now()");
+            });
+
+            modelBuilder.Entity<HasGood>(entity =>
+            {
+                entity.ToTable("has_good", "sys");
+
+                entity.Property(e => e.HasGoodid).HasColumnName("has_goodid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Goodid).HasColumnName("goodid");
+
+                entity.Property(e => e.Ownerid).HasColumnName("ownerid");
+
+                entity.Property(e => e.Ownertypecd)
+                    .IsRequired()
+                    .HasColumnName("ownertypecd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Statuscd)
+                    .IsRequired()
+                    .HasColumnName("statuscd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+            });
+
+            modelBuilder.Entity<HasService>(entity =>
+            {
+                entity.ToTable("has_service", "sys");
+
+                entity.Property(e => e.HasServiceid).HasColumnName("has_serviceid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Ownerid).HasColumnName("ownerid");
+
+                entity.Property(e => e.Ownertypecd)
+                    .IsRequired()
+                    .HasColumnName("ownertypecd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Serviceid).HasColumnName("serviceid");
+
+                entity.Property(e => e.Statuscd)
+                    .IsRequired()
+                    .HasColumnName("statuscd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+            });
+
+            modelBuilder.Entity<InAffiliation>(entity =>
+            {
+                entity.ToTable("in_affiliation", "sys");
+
+                entity.Property(e => e.InAffiliationid).HasColumnName("in_affiliationid");
+
+                entity.Property(e => e.Affiliationid).HasColumnName("affiliationid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Participantid).HasColumnName("participantid");
+
+                entity.Property(e => e.Participanttypecd)
+                    .IsRequired()
+                    .HasColumnName("participanttypecd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Statuscd)
+                    .IsRequired()
+                    .HasColumnName("statuscd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Affiliation)
+                    .WithMany(p => p.InAffiliation)
+                    .HasForeignKey(d => d.Affiliationid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_links_in_aff_to_aff");
+
+                entity.HasOne(d => d.Participant)
+                    .WithMany(p => p.InAffiliation)
+                    .HasForeignKey(d => d.Participantid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_links_in_aff_to_org");
+            });
+
+            modelBuilder.Entity<InGroup>(entity =>
+            {
+                entity.ToTable("in_group", "sys");
+
+                entity.Property(e => e.InGroupid).HasColumnName("in_groupid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Groupid).HasColumnName("groupid");
+
+                entity.Property(e => e.Groupownerid).HasColumnName("groupownerid");
+
+                entity.Property(e => e.Groupownertypecd)
+                    .IsRequired()
+                    .HasColumnName("groupownertypecd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Participantid).HasColumnName("participantid");
+
+                entity.Property(e => e.Participanttypecd)
+                    .IsRequired()
+                    .HasColumnName("participanttypecd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Statuscd)
+                    .IsRequired()
+                    .HasColumnName("statuscd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+            });
+
+            modelBuilder.Entity<InOrganization>(entity =>
+            {
+                entity.ToTable("in_organization", "sys");
+
+                entity.Property(e => e.InOrganizationid).HasColumnName("in_organizationid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Organizationid).HasColumnName("organizationid");
+
+                entity.Property(e => e.Participantid).HasColumnName("participantid");
+
+                entity.Property(e => e.Participanttypecd)
+                    .IsRequired()
+                    .HasColumnName("participanttypecd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Statuscd)
+                    .IsRequired()
+                    .HasColumnName("statuscd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.InOrganization)
+                    .HasForeignKey(d => d.Organizationid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_links_in_org_to_org");
+
+                entity.HasOne(d => d.Participant)
+                    .WithMany(p => p.InOrganization)
+                    .HasForeignKey(d => d.Participantid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_links_in_org_to_person");
+            });
+
+            modelBuilder.Entity<InProjecttemplate>(entity =>
+            {
+                entity.ToTable("in_projecttemplate", "sys");
+
+                entity.Property(e => e.InProjecttemplateid).HasColumnName("in_projecttemplateid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Projecttemplateid).HasColumnName("projecttemplateid");
+
+                entity.Property(e => e.Resourceid).HasColumnName("resourceid");
+
+                entity.Property(e => e.Resourcetypecd)
+                    .IsRequired()
+                    .HasColumnName("resourcetypecd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Statuscd)
+                    .IsRequired()
+                    .HasColumnName("statuscd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+            });
+
+            modelBuilder.Entity<IsConnected>(entity =>
+            {
+                entity.HasKey(e => e.IsConnectectedid)
+                    .HasName("is_connected_pkey");
+
+                entity.ToTable("is_connected", "sys");
+
+                entity.Property(e => e.IsConnectectedid).HasColumnName("is_connectectedid");
+
+                entity.Property(e => e.Connectedtoid).HasColumnName("connectedtoid");
+
+                entity.Property(e => e.Connectedtotypecd)
+                    .IsRequired()
+                    .HasColumnName("connectedtotypecd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Connectionid).HasColumnName("connectionid");
+
+                entity.Property(e => e.Connectiontypecd)
+                    .IsRequired()
+                    .HasColumnName("connectiontypecd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Statuscd)
+                    .IsRequired()
+                    .HasColumnName("statuscd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+            });
+
+            modelBuilder.Entity<IsRelated>(entity =>
+            {
+                entity.ToTable("is_related", "sys");
+
+                entity.Property(e => e.IsRelatedid).HasColumnName("is_relatedid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Personid).HasColumnName("personid");
+
+                entity.Property(e => e.Relatedtopersonid).HasColumnName("relatedtopersonid");
+
+                entity.Property(e => e.Relationshipcd)
+                    .IsRequired()
+                    .HasColumnName("relationshipcd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Statuscd)
+                    .IsRequired()
+                    .HasColumnName("statuscd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Person)
+                    .WithMany(p => p.IsRelatedPerson)
+                    .HasForeignKey(d => d.Personid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_links_is_rel_to_person");
+
+                entity.HasOne(d => d.Relatedtoperson)
+                    .WithMany(p => p.IsRelatedRelatedtoperson)
+                    .HasForeignKey(d => d.Relatedtopersonid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_links_is_rel_to_reltoperson");
             });
 
             modelBuilder.Entity<Organization>(entity =>
@@ -339,6 +695,47 @@ namespace OikonomiaAPI.Models
                     .HasDefaultValueSql("now()");
             });
 
+            modelBuilder.Entity<Projecttemplate>(entity =>
+            {
+                entity.ToTable("projecttemplate", "sys");
+
+                entity.Property(e => e.Projecttemplateid).HasColumnName("projecttemplateid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Description)
+                    .HasColumnName("description")
+                    .HasMaxLength(355);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Projectsubtypecd)
+                    .IsRequired()
+                    .HasColumnName("projectsubtypecd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Projecttypecd)
+                    .IsRequired()
+                    .HasColumnName("projecttypecd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Statuscd)
+                    .IsRequired()
+                    .HasColumnName("statuscd")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+            });
+
             modelBuilder.Entity<Service>(entity =>
             {
                 entity.ToTable("service", "sys");
@@ -358,6 +755,10 @@ namespace OikonomiaAPI.Models
                     .IsRequired()
                     .HasColumnName("name")
                     .HasMaxLength(50);
+
+                entity.Property(e => e.Servicesubtypecd)
+                    .HasColumnName("servicesubtypecd")
+                    .HasMaxLength(10);
 
                 entity.Property(e => e.Servicetypecd)
                     .IsRequired()

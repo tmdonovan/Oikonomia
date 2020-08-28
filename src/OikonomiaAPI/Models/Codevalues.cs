@@ -3,13 +3,12 @@ using System.Collections.Generic;
 
 namespace OikonomiaAPI.Models
 {
-    public partial class Service
+    public partial class Codevalues
     {
-        public int Serviceid { get; set; }
-        public string Name { get; set; }
+        public int Codevaluesid { get; set; }
+        public string Codegroup { get; set; }
+        public string Code { get; set; }
         public string Description { get; set; }
-        public string Servicetypecd { get; set; }
-        public string Servicesubtypecd { get; set; }
         public string Statuscd { get; set; }
         public DateTime CreateDt { get; set; }
         public DateTime UpdateDt { get; set; }

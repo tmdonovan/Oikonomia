@@ -15,6 +15,11 @@ namespace OikonomiaAPI.Data
             _context = context;
         }
 
+        public bool OrganizationExists(int id)
+        {
+            return _context.Organization.Any(a => a.Organizationid == id);
+        }
+
         public void CreateOrganization(Organization cmd)
         {
             if (cmd == null)

@@ -14,6 +14,10 @@ namespace OikonomiaAPI.Data
         {
             _context = context;
         }
+        public bool PersonExists(int id)
+        {
+            return _context.Person.Any(a => a.Personid == id);
+        }
 
         public void CreatePerson(Person cmd)
         {
@@ -43,6 +47,16 @@ namespace OikonomiaAPI.Data
         public Person GetPersonByID(int id)
         {
             return _context.Person.FirstOrDefault(p => p.Personid == id);
+        }
+
+        public ICollection<Organization> GetOrgsByPerson(int personID)
+        {
+            return _context.InOrganization.Where(p => p.Participant.Personid == personID).Select(o => o.Organization).ToList();
+        }
+
+        public ICollection<Person> GetPersonsByOrg(int organizationID)
+        {
+            return _context.InOrganization.Where(o => o.Organization.Organizationid == organizationID).Select(p => p.Participant).ToList();
         }
 
         public bool SaveChanges()

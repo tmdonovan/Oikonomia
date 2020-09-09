@@ -11,6 +11,7 @@ namespace OikonomiaAPI.Data
         bool SaveChanges();
         IEnumerable<Organization> GetAllOrganizations();
         Organization GetOrganizationByID(int id);
+        bool OrganizationExists(int id);
         void CreateOrganization(Organization cmd);
         void UpdateOrganization(Organization cmd);
         void DeleteOrganization(Organization cmd);

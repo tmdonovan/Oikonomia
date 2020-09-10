@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace OikonomiaAPI.Models
 {
-    public partial class InOrganization
+    public partial class Orggoods
     {
-        public int InOrganizationid { get; set; }
+        public int Orggoodid { get; set; }
         public int Organizationid { get; set; }
-        public int Participantid { get; set; }
-        public string Participanttypecd { get; set; }
-        public string Statuscd { get; set; }
+        public int Goodid { get; set; }
+        public int Statusid { get; set; }
         public DateTime CreateDt { get; set; }
         public DateTime UpdateDt { get; set; }
 
+        public virtual Good Good { get; set; }
         public virtual Organization Organization { get; set; }
-        public virtual Person Participant { get; set; }
+        public virtual Codevalues Status { get; set; }
     }
 }

@@ -33,8 +33,6 @@ namespace OikonomiaAPI
 
             services.AddScoped<IOrganizationRepo, SqlOrganizationRepo>();
 
-            services.AddScoped<IAffiliationRepo, SqlAffiliationRepo>();
-
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddControllers().AddNewtonsoftJson(s =>

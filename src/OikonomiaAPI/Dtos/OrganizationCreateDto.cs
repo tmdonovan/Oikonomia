@@ -7,9 +7,9 @@ namespace OikonomiaAPI.Dtos
 {
     public class OrganizationCreateDto
     {
-        public string Name { get; set; }
         public string Description { get; set; }
-        public string Organizationtypecd { get; set; }
-        public string Statuscd { get; set; }
+        public string Longdescription { get; set; }
+        public string Organizationtypeid { get; set; }
+        public string Statusid { get; set; }
     }
 }

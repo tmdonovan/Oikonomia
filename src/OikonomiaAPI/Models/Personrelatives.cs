@@ -3,17 +3,19 @@ using System.Collections.Generic;
 
 namespace OikonomiaAPI.Models
 {
-    public partial class IsRelated
+    public partial class Personrelatives
     {
-        public int IsRelatedid { get; set; }
+        public int Personrelativeid { get; set; }
         public int Personid { get; set; }
         public int Relatedtopersonid { get; set; }
-        public string Relationshipcd { get; set; }
-        public string Statuscd { get; set; }
+        public int Relationshiptypeid { get; set; }
+        public int Statusid { get; set; }
         public DateTime CreateDt { get; set; }
         public DateTime UpdateDt { get; set; }
 
         public virtual Person Person { get; set; }
         public virtual Person Relatedtoperson { get; set; }
+        public virtual Codevalues Relationshiptype { get; set; }
+        public virtual Codevalues Status { get; set; }
     }
 }

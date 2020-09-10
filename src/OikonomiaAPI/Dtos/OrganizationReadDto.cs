@@ -8,10 +8,10 @@ namespace OikonomiaAPI.Dtos
     public class OrganizationReadDto
     {
         public int Organizationid { get; set; }
-        public string Name { get; set; }
         public string Description { get; set; }
-        public string Organizationtypecd { get; set; }
-        public string Statuscd { get; set; }
+        public string Longdescription { get; set; }
+        public string Organizationtypeid { get; set; }
+        public string Statusid { get; set; }
         public DateTime CreateDt { get; set; }
         public DateTime UpdateDt { get; set; }
     }

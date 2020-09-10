@@ -51,12 +51,12 @@ namespace OikonomiaAPI.Data
 
         public ICollection<Organization> GetOrgsByPerson(int personID)
         {
-            return _context.InOrganization.Where(p => p.Participant.Personid == personID).Select(o => o.Organization).ToList();
+            return _context.Orgpersons.Where(p => p.Person.Personid == personID).Select(o => o.Organization).ToList();
         }
 
         public ICollection<Person> GetPersonsByOrg(int organizationID)
         {
-            return _context.InOrganization.Where(o => o.Organization.Organizationid == organizationID).Select(p => p.Participant).ToList();
+            return _context.Orgpersons.Where(o => o.Organization.Organizationid == organizationID).Select(p => p.Person).ToList();
         }
 
         public bool SaveChanges()

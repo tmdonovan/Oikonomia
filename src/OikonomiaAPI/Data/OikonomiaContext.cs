@@ -16,60 +16,43 @@ namespace OikonomiaAPI.Data
         {
         }
 
-        public virtual DbSet<Address> Address { get; set; }
-        public virtual DbSet<Affiliation> Affiliation { get; set; }
         public virtual DbSet<Codevalues> Codevalues { get; set; }
         public virtual DbSet<Good> Good { get; set; }
         public virtual DbSet<Groups> Groups { get; set; }
-        public virtual DbSet<HasGood> HasGood { get; set; }
-        public virtual DbSet<HasService> HasService { get; set; }
-        public virtual DbSet<InAffiliation> InAffiliation { get; set; }
-        public virtual DbSet<InGroup> InGroup { get; set; }
-        public virtual DbSet<InOrganization> InOrganization { get; set; }
-        public virtual DbSet<InProjecttemplate> InProjecttemplate { get; set; }
-        public virtual DbSet<IsConnected> IsConnected { get; set; }
-        public virtual DbSet<IsRelated> IsRelated { get; set; }
+        public virtual DbSet<Orgaddress> Orgaddress { get; set; }
         public virtual DbSet<Organization> Organization { get; set; }
+        public virtual DbSet<Orgconnections> Orgconnections { get; set; }
+        public virtual DbSet<Orggoods> Orggoods { get; set; }
+        public virtual DbSet<Orggroups> Orggroups { get; set; }
+        public virtual DbSet<Orgpersons> Orgpersons { get; set; }
+        public virtual DbSet<Orgphonenumber> Orgphonenumber { get; set; }
+        public virtual DbSet<Orgservices> Orgservices { get; set; }
         public virtual DbSet<Person> Person { get; set; }
-        public virtual DbSet<Phonenumber> Phonenumber { get; set; }
+        public virtual DbSet<Personaddress> Personaddress { get; set; }
+        public virtual DbSet<Persongoods> Persongoods { get; set; }
+        public virtual DbSet<Personphonenumber> Personphonenumber { get; set; }
+        public virtual DbSet<Personrelatives> Personrelatives { get; set; }
+        public virtual DbSet<Personservices> Personservices { get; set; }
         public virtual DbSet<Projecttemplate> Projecttemplate { get; set; }
+        public virtual DbSet<Projecttemplategoods> Projecttemplategoods { get; set; }
+        public virtual DbSet<Projecttemplateservices> Projecttemplateservices { get; set; }
         public virtual DbSet<Service> Service { get; set; }
         public virtual DbSet<User> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Address>(entity =>
+            modelBuilder.Entity<Codevalues>(entity =>
             {
-                entity.ToTable("address", "sys");
+                entity.HasKey(e => e.Codeid)
+                    .HasName("codevalues_pkey");
 
-                entity.Property(e => e.Addressid).HasColumnName("addressid");
+                entity.ToTable("codevalues", "sys");
 
-                entity.Property(e => e.Addressln1)
+                entity.Property(e => e.Codeid).HasColumnName("codeid");
+
+                entity.Property(e => e.Codegroup)
                     .IsRequired()
-                    .HasColumnName("addressln1")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Addressln2)
-                    .HasColumnName("addressln2")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Addresstypecd)
-                    .IsRequired()
-                    .HasColumnName("addresstypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.City)
-                    .IsRequired()
-                    .HasColumnName("city")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Countrycd)
-                    .IsRequired()
-                    .HasColumnName("countrycd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.County)
-                    .HasColumnName("county")
+                    .HasColumnName("codegroup")
                     .HasMaxLength(25);
 
                 entity.Property(e => e.CreateDt)
@@ -77,100 +60,16 @@ namespace OikonomiaAPI.Data
                     .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("now()");
 
-                entity.Property(e => e.Ownerid).HasColumnName("ownerid");
-
-                entity.Property(e => e.Ownertypecd)
-                    .IsRequired()
-                    .HasColumnName("ownertypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Statecd)
-                    .IsRequired()
-                    .HasColumnName("statecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.UpdateDt)
-                    .HasColumnName("update_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.Zip)
-                    .IsRequired()
-                    .HasColumnName("zip")
-                    .HasMaxLength(10);
-            });
-
-            modelBuilder.Entity<Affiliation>(entity =>
-            {
-                entity.ToTable("affiliation", "sys");
-
-                entity.Property(e => e.Affiliationid).HasColumnName("affiliationid");
-
-                entity.Property(e => e.Affiliationtypecd)
-                    .IsRequired()
-                    .HasColumnName("affiliationtypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.CreateDt)
-                    .HasColumnName("create_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.Description)
-                    .HasColumnName("description")
-                    .HasMaxLength(355);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.UpdateDt)
-                    .HasColumnName("update_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-            });
-
-            modelBuilder.Entity<Codevalues>(entity =>
-            {
-                entity.ToTable("codevalues", "sys");
-
-                entity.Property(e => e.Codevaluesid).HasColumnName("codevaluesid");
-
-                entity.Property(e => e.Code)
-                    .IsRequired()
-                    .HasColumnName("code")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Codegroup)
-                    .IsRequired()
-                    .HasColumnName("codegroup")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.CreateDt)
-                    .HasColumnName("create_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasColumnName("description")
+                    .HasMaxLength(25);
+
+                entity.Property(e => e.Longdescription)
+                    .HasColumnName("longdescription")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
 
                 entity.Property(e => e.UpdateDt)
                     .HasColumnName("update_dt")
@@ -190,32 +89,41 @@ namespace OikonomiaAPI.Data
                     .HasDefaultValueSql("now()");
 
                 entity.Property(e => e.Description)
+                    .IsRequired()
                     .HasColumnName("description")
-                    .HasMaxLength(355);
-
-                entity.Property(e => e.Goodsubtypecd)
-                    .HasColumnName("goodsubtypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Goodtypecd)
-                    .IsRequired()
-                    .HasColumnName("goodtypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Goodsubtypeid).HasColumnName("goodsubtypeid");
+
+                entity.Property(e => e.Goodtypeid).HasColumnName("goodtypeid");
+
+                entity.Property(e => e.Longdescription)
+                    .HasColumnName("longdescription")
+                    .HasMaxLength(355);
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
 
                 entity.Property(e => e.UpdateDt)
                     .HasColumnName("update_dt")
                     .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Goodsubtype)
+                    .WithMany(p => p.GoodGoodsubtype)
+                    .HasForeignKey(d => d.Goodsubtypeid)
+                    .HasConstraintName("fk_good_to_codevalues_goodsubtypeid");
+
+                entity.HasOne(d => d.Goodtype)
+                    .WithMany(p => p.GoodGoodtype)
+                    .HasForeignKey(d => d.Goodtypeid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_good_to_codevalues_goodtypeid");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.GoodStatus)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_good_to_codevalues_statusid");
             });
 
             modelBuilder.Entity<Groups>(entity =>
@@ -235,178 +143,63 @@ namespace OikonomiaAPI.Data
                     .HasDefaultValueSql("now()");
 
                 entity.Property(e => e.Description)
+                    .IsRequired()
                     .HasColumnName("description")
-                    .HasMaxLength(355);
-
-                entity.Property(e => e.Grouptypecd)
-                    .IsRequired()
-                    .HasColumnName("grouptypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Grouptypeid).HasColumnName("grouptypeid");
 
-                entity.Property(e => e.UpdateDt)
-                    .HasColumnName("update_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-            });
+                entity.Property(e => e.Longdescription)
+                    .HasColumnName("longdescription")
+                    .HasMaxLength(355);
 
-            modelBuilder.Entity<HasGood>(entity =>
-            {
-                entity.ToTable("has_good", "sys");
-
-                entity.Property(e => e.HasGoodid).HasColumnName("has_goodid");
-
-                entity.Property(e => e.CreateDt)
-                    .HasColumnName("create_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.Goodid).HasColumnName("goodid");
-
-                entity.Property(e => e.Ownerid).HasColumnName("ownerid");
-
-                entity.Property(e => e.Ownertypecd)
-                    .IsRequired()
-                    .HasColumnName("ownertypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.UpdateDt)
-                    .HasColumnName("update_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-            });
-
-            modelBuilder.Entity<HasService>(entity =>
-            {
-                entity.ToTable("has_service", "sys");
-
-                entity.Property(e => e.HasServiceid).HasColumnName("has_serviceid");
-
-                entity.Property(e => e.CreateDt)
-                    .HasColumnName("create_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.Ownerid).HasColumnName("ownerid");
-
-                entity.Property(e => e.Ownertypecd)
-                    .IsRequired()
-                    .HasColumnName("ownertypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Serviceid).HasColumnName("serviceid");
-
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.UpdateDt)
-                    .HasColumnName("update_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-            });
-
-            modelBuilder.Entity<InAffiliation>(entity =>
-            {
-                entity.ToTable("in_affiliation", "sys");
-
-                entity.Property(e => e.InAffiliationid).HasColumnName("in_affiliationid");
-
-                entity.Property(e => e.Affiliationid).HasColumnName("affiliationid");
-
-                entity.Property(e => e.CreateDt)
-                    .HasColumnName("create_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.Participantid).HasColumnName("participantid");
-
-                entity.Property(e => e.Participanttypecd)
-                    .IsRequired()
-                    .HasColumnName("participanttypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
 
                 entity.Property(e => e.UpdateDt)
                     .HasColumnName("update_dt")
                     .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("now()");
 
-                entity.HasOne(d => d.Affiliation)
-                    .WithMany(p => p.InAffiliation)
-                    .HasForeignKey(d => d.Affiliationid)
+                entity.HasOne(d => d.Grouptype)
+                    .WithMany(p => p.GroupsGrouptype)
+                    .HasForeignKey(d => d.Grouptypeid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_links_in_aff_to_aff");
+                    .HasConstraintName("fk_groups_to_codevalues_grouptypeid");
 
-                entity.HasOne(d => d.Participant)
-                    .WithMany(p => p.InAffiliation)
-                    .HasForeignKey(d => d.Participantid)
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.GroupsStatus)
+                    .HasForeignKey(d => d.Statusid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_links_in_aff_to_org");
+                    .HasConstraintName("fk_groups_to_codevalues_statusid");
             });
 
-            modelBuilder.Entity<InGroup>(entity =>
+            modelBuilder.Entity<Orgaddress>(entity =>
             {
-                entity.ToTable("in_group", "sys");
+                entity.ToTable("orgaddress", "sys");
 
-                entity.Property(e => e.InGroupid).HasColumnName("in_groupid");
+                entity.Property(e => e.Orgaddressid).HasColumnName("orgaddressid");
 
-                entity.Property(e => e.CreateDt)
-                    .HasColumnName("create_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.Groupid).HasColumnName("groupid");
-
-                entity.Property(e => e.Groupownerid).HasColumnName("groupownerid");
-
-                entity.Property(e => e.Groupownertypecd)
+                entity.Property(e => e.Addressln1)
                     .IsRequired()
-                    .HasColumnName("groupownertypecd")
-                    .HasMaxLength(10);
+                    .HasColumnName("addressln1")
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.Participantid).HasColumnName("participantid");
+                entity.Property(e => e.Addressln2)
+                    .HasColumnName("addressln2")
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.Participanttypecd)
+                entity.Property(e => e.Addresstypeid).HasColumnName("addresstypeid");
+
+                entity.Property(e => e.City)
                     .IsRequired()
-                    .HasColumnName("participanttypecd")
-                    .HasMaxLength(10);
+                    .HasColumnName("city")
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Countryid).HasColumnName("countryid");
 
-                entity.Property(e => e.UpdateDt)
-                    .HasColumnName("update_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-            });
-
-            modelBuilder.Entity<InOrganization>(entity =>
-            {
-                entity.ToTable("in_organization", "sys");
-
-                entity.Property(e => e.InOrganizationid).HasColumnName("in_organizationid");
+                entity.Property(e => e.County)
+                    .HasColumnName("county")
+                    .HasMaxLength(25);
 
                 entity.Property(e => e.CreateDt)
                     .HasColumnName("create_dt")
@@ -415,147 +208,49 @@ namespace OikonomiaAPI.Data
 
                 entity.Property(e => e.Organizationid).HasColumnName("organizationid");
 
-                entity.Property(e => e.Participantid).HasColumnName("participantid");
+                entity.Property(e => e.Stateid).HasColumnName("stateid");
 
-                entity.Property(e => e.Participanttypecd)
-                    .IsRequired()
-                    .HasColumnName("participanttypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
 
                 entity.Property(e => e.UpdateDt)
                     .HasColumnName("update_dt")
                     .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Zip)
+                    .IsRequired()
+                    .HasColumnName("zip")
+                    .HasMaxLength(10);
+
+                entity.HasOne(d => d.Addresstype)
+                    .WithMany(p => p.OrgaddressAddresstype)
+                    .HasForeignKey(d => d.Addresstypeid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgaddress_to_codevalues_addresstypeid");
+
+                entity.HasOne(d => d.Country)
+                    .WithMany(p => p.OrgaddressCountry)
+                    .HasForeignKey(d => d.Countryid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgaddress_to_codevalues_countryid");
 
                 entity.HasOne(d => d.Organization)
-                    .WithMany(p => p.InOrganization)
+                    .WithMany(p => p.Orgaddress)
                     .HasForeignKey(d => d.Organizationid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_links_in_org_to_org");
+                    .HasConstraintName("fk_orgaddress_to_org");
 
-                entity.HasOne(d => d.Participant)
-                    .WithMany(p => p.InOrganization)
-                    .HasForeignKey(d => d.Participantid)
+                entity.HasOne(d => d.State)
+                    .WithMany(p => p.OrgaddressState)
+                    .HasForeignKey(d => d.Stateid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_links_in_org_to_person");
-            });
+                    .HasConstraintName("fk_orgaddress_to_codevalues_stateid");
 
-            modelBuilder.Entity<InProjecttemplate>(entity =>
-            {
-                entity.ToTable("in_projecttemplate", "sys");
-
-                entity.Property(e => e.InProjecttemplateid).HasColumnName("in_projecttemplateid");
-
-                entity.Property(e => e.CreateDt)
-                    .HasColumnName("create_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.Projecttemplateid).HasColumnName("projecttemplateid");
-
-                entity.Property(e => e.Resourceid).HasColumnName("resourceid");
-
-                entity.Property(e => e.Resourcetypecd)
-                    .IsRequired()
-                    .HasColumnName("resourcetypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.UpdateDt)
-                    .HasColumnName("update_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-            });
-
-            modelBuilder.Entity<IsConnected>(entity =>
-            {
-                entity.HasKey(e => e.IsConnectectedid)
-                    .HasName("is_connected_pkey");
-
-                entity.ToTable("is_connected", "sys");
-
-                entity.Property(e => e.IsConnectectedid).HasColumnName("is_connectectedid");
-
-                entity.Property(e => e.Connectedtoid).HasColumnName("connectedtoid");
-
-                entity.Property(e => e.Connectedtotypecd)
-                    .IsRequired()
-                    .HasColumnName("connectedtotypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Connectionid).HasColumnName("connectionid");
-
-                entity.Property(e => e.Connectiontypecd)
-                    .IsRequired()
-                    .HasColumnName("connectiontypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.CreateDt)
-                    .HasColumnName("create_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.UpdateDt)
-                    .HasColumnName("update_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-            });
-
-            modelBuilder.Entity<IsRelated>(entity =>
-            {
-                entity.ToTable("is_related", "sys");
-
-                entity.Property(e => e.IsRelatedid).HasColumnName("is_relatedid");
-
-                entity.Property(e => e.CreateDt)
-                    .HasColumnName("create_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.Personid).HasColumnName("personid");
-
-                entity.Property(e => e.Relatedtopersonid).HasColumnName("relatedtopersonid");
-
-                entity.Property(e => e.Relationshipcd)
-                    .IsRequired()
-                    .HasColumnName("relationshipcd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.UpdateDt)
-                    .HasColumnName("update_dt")
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
-
-                entity.HasOne(d => d.Person)
-                    .WithMany(p => p.IsRelatedPerson)
-                    .HasForeignKey(d => d.Personid)
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.OrgaddressStatus)
+                    .HasForeignKey(d => d.Statusid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_links_is_rel_to_person");
-
-                entity.HasOne(d => d.Relatedtoperson)
-                    .WithMany(p => p.IsRelatedRelatedtoperson)
-                    .HasForeignKey(d => d.Relatedtopersonid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_links_is_rel_to_reltoperson");
+                    .HasConstraintName("fk_orgaddress_to_codevalues_statusid");
             });
 
             modelBuilder.Entity<Organization>(entity =>
@@ -570,28 +265,323 @@ namespace OikonomiaAPI.Data
                     .HasDefaultValueSql("now()");
 
                 entity.Property(e => e.Description)
-                    .HasColumnName("description")
-                    .HasMaxLength(355);
-
-                entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasColumnName("name")
+                    .HasColumnName("description")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Organizationtypecd)
-                    .IsRequired()
-                    .HasColumnName("organizationtypecd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Longdescription)
+                    .HasColumnName("longdescription")
+                    .HasMaxLength(355);
 
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Organizationtypeid).HasColumnName("organizationtypeid");
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
 
                 entity.Property(e => e.UpdateDt)
                     .HasColumnName("update_dt")
                     .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.Organization)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_organization_to_codevalues_statusid");
+            });
+
+            modelBuilder.Entity<Orgconnections>(entity =>
+            {
+                entity.HasKey(e => e.Orgconnectionid)
+                    .HasName("orgconnectionid_pkey");
+
+                entity.ToTable("orgconnections", "sys");
+
+                entity.Property(e => e.Orgconnectionid).HasColumnName("orgconnectionid");
+
+                entity.Property(e => e.Connectedtoorgid).HasColumnName("connectedtoorgid");
+
+                entity.Property(e => e.Connectiontypeid).HasColumnName("connectiontypeid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Organizationid).HasColumnName("organizationid");
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Connectedtoorg)
+                    .WithMany(p => p.OrgconnectionsConnectedtoorg)
+                    .HasForeignKey(d => d.Connectedtoorgid)
+                    .HasConstraintName("fk_orgconnections_to_connectedtoorg");
+
+                entity.HasOne(d => d.Connectiontype)
+                    .WithMany(p => p.OrgconnectionsConnectiontype)
+                    .HasForeignKey(d => d.Connectiontypeid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgconnections_to_codevalues_connectiontypeid");
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.OrgconnectionsOrganization)
+                    .HasForeignKey(d => d.Organizationid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgconnections_to_org");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.OrgconnectionsStatus)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgconnections_to_codevalues_statusid");
+            });
+
+            modelBuilder.Entity<Orggoods>(entity =>
+            {
+                entity.HasKey(e => e.Orggoodid)
+                    .HasName("orggoodid_pkey");
+
+                entity.ToTable("orggoods", "sys");
+
+                entity.Property(e => e.Orggoodid).HasColumnName("orggoodid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Goodid).HasColumnName("goodid");
+
+                entity.Property(e => e.Organizationid).HasColumnName("organizationid");
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Good)
+                    .WithMany(p => p.Orggoods)
+                    .HasForeignKey(d => d.Goodid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orggoods_to_good");
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.Orggoods)
+                    .HasForeignKey(d => d.Organizationid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orggoods_to_org");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.Orggoods)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orggoods_to_codevalues_statusid");
+            });
+
+            modelBuilder.Entity<Orggroups>(entity =>
+            {
+                entity.HasKey(e => e.Orggroupid)
+                    .HasName("orggroup_pkey");
+
+                entity.ToTable("orggroups", "sys");
+
+                entity.Property(e => e.Orggroupid).HasColumnName("orggroupid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Groupid).HasColumnName("groupid");
+
+                entity.Property(e => e.OwnerOrganizationid).HasColumnName("owner_organizationid");
+
+                entity.Property(e => e.ParticipantOrganizationid).HasColumnName("participant_organizationid");
+
+                entity.Property(e => e.ParticipantPersonid).HasColumnName("participant_personid");
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.Orggroups)
+                    .HasForeignKey(d => d.Groupid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orggroups_to_groups");
+
+                entity.HasOne(d => d.OwnerOrganization)
+                    .WithMany(p => p.OrggroupsOwnerOrganization)
+                    .HasForeignKey(d => d.OwnerOrganizationid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orggroups_to_ownerorg");
+
+                entity.HasOne(d => d.ParticipantOrganization)
+                    .WithMany(p => p.OrggroupsParticipantOrganization)
+                    .HasForeignKey(d => d.ParticipantOrganizationid)
+                    .HasConstraintName("fk_orggroups_to_participantorg");
+
+                entity.HasOne(d => d.ParticipantPerson)
+                    .WithMany(p => p.Orggroups)
+                    .HasForeignKey(d => d.ParticipantPersonid)
+                    .HasConstraintName("fk_orggroups_to_participantperson");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.Orggroups)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orggroups_to_codevalues_statusid");
+            });
+
+            modelBuilder.Entity<Orgpersons>(entity =>
+            {
+                entity.HasKey(e => e.Orgpersonid)
+                    .HasName("orgperson_pkey");
+
+                entity.ToTable("orgpersons", "sys");
+
+                entity.Property(e => e.Orgpersonid).HasColumnName("orgpersonid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Organizationid).HasColumnName("organizationid");
+
+                entity.Property(e => e.Participationtypeid).HasColumnName("participationtypeid");
+
+                entity.Property(e => e.Personid).HasColumnName("personid");
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.Orgpersons)
+                    .HasForeignKey(d => d.Organizationid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgpersons_to_org");
+
+                entity.HasOne(d => d.Participationtype)
+                    .WithMany(p => p.OrgpersonsParticipationtype)
+                    .HasForeignKey(d => d.Participationtypeid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgpersons_to_codevalues_participationtypeid");
+
+                entity.HasOne(d => d.Person)
+                    .WithMany(p => p.Orgpersons)
+                    .HasForeignKey(d => d.Personid)
+                    .HasConstraintName("fk_orgpersons_to_person");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.OrgpersonsStatus)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgpersons_to_codevalues_statusid");
+            });
+
+            modelBuilder.Entity<Orgphonenumber>(entity =>
+            {
+                entity.ToTable("orgphonenumber", "sys");
+
+                entity.Property(e => e.Orgphonenumberid).HasColumnName("orgphonenumberid");
+
+                entity.Property(e => e.Areacode).HasColumnName("areacode");
+
+                entity.Property(e => e.Countrycode).HasColumnName("countrycode");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Organizationid).HasColumnName("organizationid");
+
+                entity.Property(e => e.Phonenumber).HasColumnName("phonenumber");
+
+                entity.Property(e => e.Phonetypeid).HasColumnName("phonetypeid");
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.Orgphonenumber)
+                    .HasForeignKey(d => d.Organizationid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgphonenumber_to_org");
+
+                entity.HasOne(d => d.Phonetype)
+                    .WithMany(p => p.OrgphonenumberPhonetype)
+                    .HasForeignKey(d => d.Phonetypeid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgphonenumber_to_codevalues_phonetypeid");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.OrgphonenumberStatus)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgphonenumber_to_codevalues_statusid");
+            });
+
+            modelBuilder.Entity<Orgservices>(entity =>
+            {
+                entity.HasKey(e => e.Orgserviceid)
+                    .HasName("orgserviceid_pkey");
+
+                entity.ToTable("orgservices", "sys");
+
+                entity.Property(e => e.Orgserviceid).HasColumnName("orgserviceid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Organizationid).HasColumnName("organizationid");
+
+                entity.Property(e => e.Serviceid).HasColumnName("serviceid");
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.Orgservices)
+                    .HasForeignKey(d => d.Organizationid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgservices_to_org");
+
+                entity.HasOne(d => d.Service)
+                    .WithMany(p => p.Orgservices)
+                    .HasForeignKey(d => d.Serviceid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgservices_to_service");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.Orgservices)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_orgservices_to_codevalues_statusid");
             });
 
             modelBuilder.Entity<Person>(entity =>
@@ -622,9 +612,7 @@ namespace OikonomiaAPI.Data
                     .HasColumnName("email")
                     .HasMaxLength(355);
 
-                entity.Property(e => e.Ethnicitycd)
-                    .HasColumnName("ethnicitycd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Ethnicityid).HasColumnName("ethnicityid");
 
                 entity.Property(e => e.Firstname)
                     .IsRequired()
@@ -640,9 +628,7 @@ namespace OikonomiaAPI.Data
                     .HasColumnName("middlename")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Sexcd)
-                    .HasColumnName("sexcd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Sexid).HasColumnName("sexid");
 
                 entity.Property(e => e.UpdateDt)
                     .HasColumnName("update_dt")
@@ -653,13 +639,147 @@ namespace OikonomiaAPI.Data
                     .IsRequired()
                     .HasColumnName("username")
                     .HasMaxLength(50);
+
+                entity.HasOne(d => d.Ethnicity)
+                    .WithMany(p => p.PersonEthnicity)
+                    .HasForeignKey(d => d.Ethnicityid)
+                    .HasConstraintName("fk_person_to_codevalues_ethnicityid");
+
+                entity.HasOne(d => d.Sex)
+                    .WithMany(p => p.PersonSex)
+                    .HasForeignKey(d => d.Sexid)
+                    .HasConstraintName("fk_person_to_codevalues_sexid");
             });
 
-            modelBuilder.Entity<Phonenumber>(entity =>
+            modelBuilder.Entity<Personaddress>(entity =>
             {
-                entity.ToTable("phonenumber", "sys");
+                entity.ToTable("personaddress", "sys");
 
-                entity.Property(e => e.Phonenumberid).HasColumnName("phonenumberid");
+                entity.Property(e => e.Personaddressid).HasColumnName("personaddressid");
+
+                entity.Property(e => e.Addressln1)
+                    .IsRequired()
+                    .HasColumnName("addressln1")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Addressln2)
+                    .HasColumnName("addressln2")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Addresstypeid).HasColumnName("addresstypeid");
+
+                entity.Property(e => e.City)
+                    .IsRequired()
+                    .HasColumnName("city")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Countryid).HasColumnName("countryid");
+
+                entity.Property(e => e.County)
+                    .HasColumnName("county")
+                    .HasMaxLength(25);
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Personid).HasColumnName("personid");
+
+                entity.Property(e => e.Stateid).HasColumnName("stateid");
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Zip)
+                    .IsRequired()
+                    .HasColumnName("zip")
+                    .HasMaxLength(10);
+
+                entity.HasOne(d => d.Addresstype)
+                    .WithMany(p => p.PersonaddressAddresstype)
+                    .HasForeignKey(d => d.Addresstypeid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personaddress_to_codevalues_addresstypeid");
+
+                entity.HasOne(d => d.Country)
+                    .WithMany(p => p.PersonaddressCountry)
+                    .HasForeignKey(d => d.Countryid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personaddress_to_codevalues_countryid");
+
+                entity.HasOne(d => d.Person)
+                    .WithMany(p => p.Personaddress)
+                    .HasForeignKey(d => d.Personid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personaddress_to_org");
+
+                entity.HasOne(d => d.State)
+                    .WithMany(p => p.PersonaddressState)
+                    .HasForeignKey(d => d.Stateid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personaddress_to_codevalues_stateid");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.PersonaddressStatus)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personaddress_to_codevalues_statusid");
+            });
+
+            modelBuilder.Entity<Persongoods>(entity =>
+            {
+                entity.HasKey(e => e.Persongoodid)
+                    .HasName("persongoodid_pkey");
+
+                entity.ToTable("persongoods", "sys");
+
+                entity.Property(e => e.Persongoodid).HasColumnName("persongoodid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Goodid).HasColumnName("goodid");
+
+                entity.Property(e => e.Personid).HasColumnName("personid");
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Good)
+                    .WithMany(p => p.Persongoods)
+                    .HasForeignKey(d => d.Goodid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_persongoods_to_good");
+
+                entity.HasOne(d => d.Person)
+                    .WithMany(p => p.Persongoods)
+                    .HasForeignKey(d => d.Personid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_persongoods_to_person");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.Persongoods)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_persongoods_to_codevalues_statusid");
+            });
+
+            modelBuilder.Entity<Personphonenumber>(entity =>
+            {
+                entity.ToTable("personphonenumber", "sys");
+
+                entity.Property(e => e.Personphonenumberid).HasColumnName("personphonenumberid");
 
                 entity.Property(e => e.Areacode).HasColumnName("areacode");
 
@@ -670,29 +790,132 @@ namespace OikonomiaAPI.Data
                     .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("now()");
 
-                entity.Property(e => e.Ownerid).HasColumnName("ownerid");
+                entity.Property(e => e.Personid).HasColumnName("personid");
 
-                entity.Property(e => e.Ownertypecd)
-                    .IsRequired()
-                    .HasColumnName("ownertypecd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Phonenumber).HasColumnName("phonenumber");
 
-                entity.Property(e => e.Phonenumber1).HasColumnName("phonenumber");
+                entity.Property(e => e.Phonetypeid).HasColumnName("phonetypeid");
 
-                entity.Property(e => e.Phonetypecd)
-                    .IsRequired()
-                    .HasColumnName("phonetypecd")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
 
                 entity.Property(e => e.UpdateDt)
                     .HasColumnName("update_dt")
                     .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Person)
+                    .WithMany(p => p.Personphonenumber)
+                    .HasForeignKey(d => d.Personid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personphonenumber_to_person");
+
+                entity.HasOne(d => d.Phonetype)
+                    .WithMany(p => p.PersonphonenumberPhonetype)
+                    .HasForeignKey(d => d.Phonetypeid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personphonenumber_to_codevalues_phonetypeid");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.PersonphonenumberStatus)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personphonenumber_to_codevalues_statusid");
+            });
+
+            modelBuilder.Entity<Personrelatives>(entity =>
+            {
+                entity.HasKey(e => e.Personrelativeid)
+                    .HasName("personrelativeid_pkey");
+
+                entity.ToTable("personrelatives", "sys");
+
+                entity.Property(e => e.Personrelativeid).HasColumnName("personrelativeid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Personid).HasColumnName("personid");
+
+                entity.Property(e => e.Relatedtopersonid).HasColumnName("relatedtopersonid");
+
+                entity.Property(e => e.Relationshiptypeid).HasColumnName("relationshiptypeid");
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Person)
+                    .WithMany(p => p.PersonrelativesPerson)
+                    .HasForeignKey(d => d.Personid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personrelatives_to_person");
+
+                entity.HasOne(d => d.Relatedtoperson)
+                    .WithMany(p => p.PersonrelativesRelatedtoperson)
+                    .HasForeignKey(d => d.Relatedtopersonid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personrelatives_to_relative");
+
+                entity.HasOne(d => d.Relationshiptype)
+                    .WithMany(p => p.PersonrelativesRelationshiptype)
+                    .HasForeignKey(d => d.Relationshiptypeid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personrelatives_to_codevalues_relationshiptypeid");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.PersonrelativesStatus)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personrelatives_to_codevalues_statusid");
+            });
+
+            modelBuilder.Entity<Personservices>(entity =>
+            {
+                entity.HasKey(e => e.Personserviceid)
+                    .HasName("personserviceid_pkey");
+
+                entity.ToTable("personservices", "sys");
+
+                entity.Property(e => e.Personserviceid).HasColumnName("personserviceid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Personid).HasColumnName("personid");
+
+                entity.Property(e => e.Serviceid).HasColumnName("serviceid");
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Person)
+                    .WithMany(p => p.Personservices)
+                    .HasForeignKey(d => d.Personid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personservices_to_person");
+
+                entity.HasOne(d => d.Service)
+                    .WithMany(p => p.Personservices)
+                    .HasForeignKey(d => d.Serviceid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personservices_to_service");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.Personservices)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_personservices_to_codevalues_statusid");
             });
 
             modelBuilder.Entity<Projecttemplate>(entity =>
@@ -715,25 +938,122 @@ namespace OikonomiaAPI.Data
                     .HasColumnName("name")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Projectsubtypecd)
-                    .IsRequired()
-                    .HasColumnName("projectsubtypecd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Projectsubtypeid).HasColumnName("projectsubtypeid");
 
-                entity.Property(e => e.Projecttypecd)
-                    .IsRequired()
-                    .HasColumnName("projecttypecd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Projecttypeid).HasColumnName("projecttypeid");
 
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
 
                 entity.Property(e => e.UpdateDt)
                     .HasColumnName("update_dt")
                     .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Projectsubtype)
+                    .WithMany(p => p.ProjecttemplateProjectsubtype)
+                    .HasForeignKey(d => d.Projectsubtypeid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_projecttemplate_to_codevalues_projectsubtypeid");
+
+                entity.HasOne(d => d.Projecttype)
+                    .WithMany(p => p.ProjecttemplateProjecttype)
+                    .HasForeignKey(d => d.Projecttypeid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_projecttemplate_to_codevalues_projecttypeid");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.ProjecttemplateStatus)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_projecttemplate_to_codevalues_statusid");
+            });
+
+            modelBuilder.Entity<Projecttemplategoods>(entity =>
+            {
+                entity.HasKey(e => e.Projecttempgoodid)
+                    .HasName("projecttempgoodid_pkey");
+
+                entity.ToTable("projecttemplategoods", "sys");
+
+                entity.Property(e => e.Projecttempgoodid).HasColumnName("projecttempgoodid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Goodid).HasColumnName("goodid");
+
+                entity.Property(e => e.Projecttemplateid).HasColumnName("projecttemplateid");
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Good)
+                    .WithMany(p => p.Projecttemplategoods)
+                    .HasForeignKey(d => d.Goodid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_projecttemplategoods_to_good");
+
+                entity.HasOne(d => d.Projecttemplate)
+                    .WithMany(p => p.Projecttemplategoods)
+                    .HasForeignKey(d => d.Projecttemplateid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_projecttemplategoods_to_projecttemplate");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.Projecttemplategoods)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_projecttemplategoods_to_codevalues_statusid");
+            });
+
+            modelBuilder.Entity<Projecttemplateservices>(entity =>
+            {
+                entity.HasKey(e => e.Projecttempserviceid)
+                    .HasName("projecttempserviceid_pkey");
+
+                entity.ToTable("projecttemplateservices", "sys");
+
+                entity.Property(e => e.Projecttempserviceid).HasColumnName("projecttempserviceid");
+
+                entity.Property(e => e.CreateDt)
+                    .HasColumnName("create_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.Projecttemplateid).HasColumnName("projecttemplateid");
+
+                entity.Property(e => e.Serviceid).HasColumnName("serviceid");
+
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
+
+                entity.Property(e => e.UpdateDt)
+                    .HasColumnName("update_dt")
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Projecttemplate)
+                    .WithMany(p => p.Projecttemplateservices)
+                    .HasForeignKey(d => d.Projecttemplateid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_projecttemplateservices_to_projecttemplate");
+
+                entity.HasOne(d => d.Service)
+                    .WithMany(p => p.Projecttemplateservices)
+                    .HasForeignKey(d => d.Serviceid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_projecttemplateservices_to_service");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.Projecttemplateservices)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_projecttemplateservices_to_codevalues_statusid");
             });
 
             modelBuilder.Entity<Service>(entity =>
@@ -756,24 +1076,33 @@ namespace OikonomiaAPI.Data
                     .HasColumnName("name")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Servicesubtypecd)
-                    .HasColumnName("servicesubtypecd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Servicesubtypeid).HasColumnName("servicesubtypeid");
 
-                entity.Property(e => e.Servicetypecd)
-                    .IsRequired()
-                    .HasColumnName("servicetypecd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Servicetypeid).HasColumnName("servicetypeid");
 
-                entity.Property(e => e.Statuscd)
-                    .IsRequired()
-                    .HasColumnName("statuscd")
-                    .HasMaxLength(10);
+                entity.Property(e => e.Statusid).HasColumnName("statusid");
 
                 entity.Property(e => e.UpdateDt)
                     .HasColumnName("update_dt")
                     .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("now()");
+
+                entity.HasOne(d => d.Servicesubtype)
+                    .WithMany(p => p.ServiceServicesubtype)
+                    .HasForeignKey(d => d.Servicesubtypeid)
+                    .HasConstraintName("fk_service_to_codevalues_servicesubtypeid");
+
+                entity.HasOne(d => d.Servicetype)
+                    .WithMany(p => p.ServiceServicetype)
+                    .HasForeignKey(d => d.Servicetypeid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_service_to_codevalues_servicetypeid");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.ServiceStatus)
+                    .HasForeignKey(d => d.Statusid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_service_to_codevalues_statusid");
             });
 
             modelBuilder.Entity<User>(entity =>

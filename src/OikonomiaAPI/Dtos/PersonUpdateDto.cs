@@ -13,7 +13,7 @@ namespace OikonomiaAPI.Dtos
         public string Middlename { get; set; }
         public string Lastname { get; set; }
         public DateTime BirthDt { get; set; }
-        public string Sexcd { get; set; }
-        public string Ethnicitycd { get; set; }
+        public string Sexid { get; set; }
+        public string Ethnicityid { get; set; }
     }
 }

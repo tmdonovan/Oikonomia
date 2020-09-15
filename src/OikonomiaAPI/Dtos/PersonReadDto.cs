@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OikonomiaAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,8 +15,10 @@ namespace OikonomiaAPI.Dtos
         public string Middlename { get; set; }
         public string Lastname { get; set; }
         public DateTime BirthDt { get; set; }
-        public string Sexcd { get; set; }
-        public string Ethnicitycd { get; set; }
+        public string Sexid { get; set; }
+        public CodevaluesReadDto Sex { get; set; }
+        public string Ethnicityid { get; set; }
+        public CodevaluesReadDto Ethnicity { get; set; }
         public DateTime CreateDt { get; set; }
         public DateTime UpdateDt { get; set; }
     }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace OikonomiaAPI.Data
 {
@@ -16,7 +17,8 @@ namespace OikonomiaAPI.Data
         }
         public bool PersonExists(int id)
         {
-            return _context.Person.Any(a => a.Personid == id);
+            return _context
+                .Person.Any(a => a.Personid == id);
         }
 
         public void CreatePerson(Person cmd)
@@ -36,27 +38,40 @@ namespace OikonomiaAPI.Data
                 throw new ArgumentNullException(nameof(cmd));
             }
 
-            _context.Person.Remove(cmd);
+            _context.Person
+                .Remove(cmd);
         }
 
         public IEnumerable<Person> GetAllPersons()
         {
-            return _context.Person.ToList();
+            return _context.Person
+                .ToList();
         }
 
         public Person GetPersonByID(int id)
         {
-            return _context.Person.FirstOrDefault(p => p.Personid == id);
+            var person = _context.Person
+                .Include(s => s.Sex)
+                .Include(e => e.Ethnicity)
+                .FirstOrDefault(p => p.Personid == id);
+
+            return person;
         }
 
         public ICollection<Organization> GetOrgsByPerson(int personID)
         {
-            return _context.Orgpersons.Where(p => p.Person.Personid == personID).Select(o => o.Organization).ToList();
+            return _context.Orgpersons
+                .Where(p => p.Person.Personid == personID)
+                .Select(o => o.Organization)
+                .ToList();
         }
 
         public ICollection<Person> GetPersonsByOrg(int organizationID)
         {
-            return _context.Orgpersons.Where(o => o.Organization.Organizationid == organizationID).Select(p => p.Person).ToList();
+            return _context.Orgpersons
+                .Where(o => o.Organization.Organizationid == organizationID)
+                .Select(p => p.Person)
+                .ToList();
         }
 
         public bool SaveChanges()
